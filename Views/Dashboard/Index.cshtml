@@ -78,12 +78,16 @@
         </div>
         <div class="panel-b chart-split">
             <div class="chart-box">
-                <div class="chart-placeholder">Donut chart (Day-2)</div>
+                <div class="chart-placeholder">
+                    <div style="height:200px;">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                </div>
             </div>
             <div class="chart-legend">
-                <div class="legend-item"><span class="legend-dot red"></span> Low Stock</div>
-                <div class="legend-item"><span class="legend-dot orange"></span> Out of Stock</div>
                 <div class="legend-item"><span class="legend-dot green"></span> In Stock</div>
+                <div class="legend-item"><span class="legend-dot orange"></span> Low Stock</div>
+                <div class="legend-item"><span class="legend-dot red"></span> Out of Stock</div>
 
                 <div class="legend-list">
                     <div class="legend-row"><span>Mouse</span><b>2</b></div>
@@ -108,7 +112,11 @@
             </div>
         </div>
         <div class="panel-b">
-            <div class="chart-placeholder">Line chart (Day-2)</div>
+            <div class="chart-placeholder">
+                <div style="height:220px;">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -216,3 +224,87 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        Chart.defaults.color = 'rgba(233,238,246,.70)';
+        Chart.defaults.font.family = 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial';
+        Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
+
+        const donutCtx = document.getElementById('donutChart');
+        new Chart(donutCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['In Stock', 'Low Stock', 'Out of Stock'],
+            datasets: [{
+              data: [2, 2, 1], 
+              backgroundColor: [
+                '#34d399',  
+                '#ffb84d',  
+                '#ff5c5c'  
+              ],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            cutout: '70%',
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+        const lineCtx = document.getElementById('lineChart');
+        new Chart(lineCtx, {
+          type: 'line',
+          data: {
+            labels: ['Nov','Jan','Feb','Mar','Apr','May'],
+            datasets: [
+              {
+                label: 'Sales',
+                data: [300, 1200, 3900, 2600, 5200, 4300],
+                borderColor: '#60a5fa',
+                backgroundColor: 'rgba(96,165,250,.10)',
+                tension: .35,
+                fill: false,
+                pointRadius: 0,
+                borderWidth: 2
+              },
+              {
+                label: 'Revenue',
+                data: [200, 900, 1600, 2100, 3200, 4700],
+                borderColor: '#34d399',
+                backgroundColor: 'rgba(52,211,153,.08)',
+                tension: .35,
+                fill: false,
+                pointRadius: 0,
+                borderWidth: 2
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }, 
+              tooltip: {
+                backgroundColor: 'rgba(20,26,36,.95)',
+                borderColor: 'rgba(255,255,255,.08)',
+                borderWidth: 1,
+                titleColor: '#e9eef6',
+                bodyColor: 'rgba(233,238,246,.85)'
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: 'rgba(233,238,246,.45)' },
+                grid: { color: 'rgba(255,255,255,.05)' }
+              },
+              y: {
+                ticks: { color: 'rgba(233,238,246,.45)' },
+                grid: { color: 'rgba(255,255,255,.05)' }
+              }
+            }
+          }
+        });
+    </script>
+}

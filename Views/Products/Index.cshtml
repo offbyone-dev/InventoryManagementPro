@@ -2,17 +2,84 @@
     ViewData["Title"] = "Products";
 }
 
-<div class="page-header">
-    <h2 class="page-title">Products</h2>
-    <div class="page-subtitle">Manage products, categories and pricing</div>
+<div class="table-wrap">
+    <div class="table-head table-toolbar">
+        <div class="table-title">Products</div>
+
+        <div class="table-tools">
+            <button class="btn-primary-dark" type="button" onclick="openModal()">
+                <i class="bi bi-plus"></i> Add Product
+            </button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Laptop</td>
+                <td>Electronics</td>
+                <td>$1200</td>
+                <td>10</td>
+                <td><span class="badge in">In Stock</span></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-<div class="panel">
-    <div class="panel-h">
-        <div>Products</div>
-        <div class="panel-actions"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-    </div>
-    <div class="panel-b">
-        <div class="chart-placeholder">Products UI will be built next (table + add/edit)</div>
+<div class="modal-overlay" id="productModal" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Add Product</h3>
+            <button type="button" class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-row">
+                <label>Product Name</label>
+                <input type="text" />
+            </div>
+            <div class="form-row">
+                <label>Category</label>
+                <input type="text" />
+            </div>
+            <div class="form-row">
+                <label>Price</label>
+                <input type="number" />
+            </div>
+            <div class="form-row">
+                <label>Quantity</label>
+                <input type="number" />
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn-ghost" onclick="closeModal()">Cancel</button>
+            <button type="button" class="btn-primary-dark">Save</button>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function openModal(){
+            document.getElementById("productModal").style.display = "flex";
+        }
+        function closeModal(){
+            document.getElementById("productModal").style.display = "none";
+        }
+             document.addEventListener('keydown', function(e){
+          if(e.key === 'Escape') closeModal();
+        });
+    </script>
+}
