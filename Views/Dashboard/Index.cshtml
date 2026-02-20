@@ -1,0 +1,218 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="kpi-row">
+    <div class="kpi green">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-lock"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">150</div>
+                    <div class="kpi-sub">Total Products</div>
+                </div>
+            </div>
+        </div>
+        <div class="kpi-bottom kpi-bottom-link">
+            <span>View Products</span>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+    </div>
+
+    <div class="kpi orange">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-currency-dollar"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">$12,450</div>
+                    <div class="kpi-sub">This Month</div>
+                </div>
+            </div>
+        </div>
+        <div class="kpi-bottom kpi-bottom-link">
+            <span>View Sales</span>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+    </div>
+
+    <div class="kpi red">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">8</div>
+                    <div class="kpi-sub">Low Stock Alerts</div>
+                </div>
+            </div>
+        </div>
+        <div class="kpi-bottom kpi-bottom-link">
+            <span>View Alerts</span>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+    </div>
+
+    <div class="kpi blue">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-receipt"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">320</div>
+                    <div class="kpi-sub">Total Orders</div>
+                </div>
+            </div>
+        </div>
+        <div class="kpi-bottom kpi-bottom-link">
+            <span>View Orders</span>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="panel">
+        <div class="panel-h">
+            <div>Low Stock Products</div>
+            <div class="panel-actions">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </div>
+        <div class="panel-b chart-split">
+            <div class="chart-box">
+                <div class="chart-placeholder">Donut chart (Day-2)</div>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item"><span class="legend-dot red"></span> Low Stock</div>
+                <div class="legend-item"><span class="legend-dot orange"></span> Out of Stock</div>
+                <div class="legend-item"><span class="legend-dot green"></span> In Stock</div>
+
+                <div class="legend-list">
+                    <div class="legend-row"><span>Mouse</span><b>2</b></div>
+                    <div class="legend-row"><span>Printer Paper</span><b>3</b></div>
+                    <div class="legend-row"><span>Monitor</span><b>4</b></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-h">
+            <div>Sales Overview</div>
+            <div class="panel-right">
+                <div class="mini-legend">
+                    <span class="mini-pill"><span class="legend-dot blue"></span> Sales</span>
+                    <span class="mini-pill"><span class="legend-dot green"></span> Revenue</span>
+                </div>
+                <div class="panel-actions">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-b">
+            <div class="chart-placeholder">Line chart (Day-2)</div>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrap">
+    <div class="table-head table-toolbar">
+        <div class="table-title">Inventory List</div>
+
+        <div class="table-tools">
+            <div class="tool-search">
+                <i class="bi bi-search"></i>
+                <input placeholder="Search..." />
+            </div>
+            <button class="btn-primary-dark"><i class="bi bi-plus"></i> Add Product</button>
+            <button class="btn-ghost">View All <i class="bi bi-chevron-down"></i></button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:70px;">ID</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th style="width:190px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-laptop"></i></span> Laptop</td>
+                <td>Electronics</td>
+                <td>8</td>
+                <td>$1499</td>
+                <td><span class="badge in">In Stock</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-phone"></i></span> Smartphone</td>
+                <td>Electronics</td>
+                <td>5</td>
+                <td>$1299</td>
+                <td><span class="badge low">Low Stock</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-headphones"></i></span> Headphones</td>
+                <td>Accessories</td>
+                <td>4</td>
+                <td>$2499</td>
+                <td><span class="badge low">Low Stock</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-keyboard"></i></span> Keyboard</td>
+                <td>Accessories</td>
+                <td>5</td>
+                <td>$999</td>
+                <td><span class="badge in">In Stock</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-cup-hot"></i></span> Desk Chair</td>
+                <td>Furniture</td>
+                <td>6</td>
+                <td>$1299</td>
+                <td><span class="badge out">Out of Stock</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-foot">
+        <span>Showing 1 to 5 of 5 entries</span>
+        <div class="pager">
+            <button class="pg">&lt;</button>
+            <button class="pg active">1</button>
+            <button class="pg">&gt;</button>
+        </div>
+    </div>
+</div>
