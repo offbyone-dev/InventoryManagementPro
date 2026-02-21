@@ -4,15 +4,180 @@
 
 <div class="page-header">
     <h2 class="page-title">Reports</h2>
-    <div class="page-subtitle">Export inventory & sales reports</div>
+    <div class="page-subtitle">Generate inventory and sales reports</div>
+</div>
+
+<div class="kpi-row">
+    <div class="kpi green">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-cash-stack"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">$18,920</div>
+                    <div class="kpi-sub">Revenue (30 days)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kpi blue">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-bag-check"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">86</div>
+                    <div class="kpi-sub">Orders (30 days)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kpi orange">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-box-seam"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">42</div>
+                    <div class="kpi-sub">Products Added</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="panel">
     <div class="panel-h">
-        <div>Reports</div>
-        <div class="panel-actions"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div>Report Filters</div>
+        <div class="panel-right">
+            <button class="btn-ghost"><i class="bi bi-download"></i> Export</button>
+        </div>
     </div>
+
     <div class="panel-b">
-        <div class="chart-placeholder">Reports UI will be built next (export buttons)</div>
+        <div class="report-filters">
+            <div class="filter-item">
+                <label>Date Range</label>
+                <select>
+                    <option>Last 7 days</option>
+                    <option selected>Last 30 days</option>
+                    <option>Last 90 days</option>
+                    <option>This Year</option>
+                </select>
+            </div>
+
+            <div class="filter-item">
+                <label>Report Type</label>
+                <select>
+                    <option selected>Sales Report</option>
+                    <option>Inventory Report</option>
+                    <option>Low Stock Report</option>
+                </select>
+            </div>
+
+            <div class="filter-item">
+                <label>Format</label>
+                <select>
+                    <option selected>PDF</option>
+                    <option>Excel</option>
+                </select>
+            </div>
+
+            <div class="filter-item filter-btn">
+                <button class="btn-primary-dark"><i class="bi bi-play-fill"></i> Generate</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="panel">
+    <div class="panel-h">
+        <div>Monthly Revenue</div>
+        <div class="panel-actions">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+    </div>
+    <div class="panel-b">
+        <div style="height:240px;">
+            <canvas id="reportChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrap">
+    <div class="table-head table-toolbar">
+        <div class="table-title">Generated Report (Preview)</div>
+
+        <div class="table-tools">
+            <div class="tool-search">
+                <i class="bi bi-search"></i>
+                <input placeholder="Search..." />
+            </div>
+            <button class="btn-ghost">Print <i class="bi bi-printer"></i></button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:120px;">ID</th>
+                <th>Title</th>
+                <th>Created</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th style="width:190px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#R-9001</td>
+                <td>Sales Summary (30 days)</td>
+                <td>22 Feb 2026</td>
+                <td>Sales</td>
+                <td><span class="badge in">Ready</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
+                    <button class="btn-action del"><i class="bi bi-download"></i> Download</button>
+                </td>
+            </tr>
+            <tr>
+                <td>#R-9002</td>
+                <td>Inventory Snapshot</td>
+                <td>21 Feb 2026</td>
+                <td>Inventory</td>
+                <td><span class="badge low">Draft</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
+                    <button class="btn-action del"><i class="bi bi-download"></i> Download</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        Chart.defaults.color = 'rgba(233,238,246,.70)';
+        Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
+        const ctx = document.getElementById('reportChart');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+            datasets: [{
+              label: 'Revenue',
+              data: [1200,1900,3000,2500,3200,4000],
+              borderWidth: 0,
+              backgroundColor: 'rgba(96,165,250,.35)'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } },
+              y: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } }
+            }
+          }
+        });
+    </script>
+}

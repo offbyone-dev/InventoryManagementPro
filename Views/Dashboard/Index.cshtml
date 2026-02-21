@@ -225,24 +225,36 @@
     </div>
 </div>
 
+
 @section Scripts {
     <script>
         Chart.defaults.color = 'rgba(233,238,246,.70)';
         Chart.defaults.font.family = 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial';
         Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
 
-        const donutCtx = document.getElementById('donutChart');
-        new Chart(donutCtx, {
+        window._imsCharts ??= {};
+
+        function recreateChart(key, canvasId, config) {
+          const el = document.getElementById(canvasId);
+          if (!el || !window.Chart) return;
+
+          if (window._imsCharts[key]) {
+            window._imsCharts[key].destroy();
+            window._imsCharts[key] = null;
+          }
+
+          setTimeout(() => {
+            window._imsCharts[key] = new Chart(el, config);
+          }, 80);
+        }
+
+        recreateChart("donut", "donutChart", {
           type: 'doughnut',
           data: {
             labels: ['In Stock', 'Low Stock', 'Out of Stock'],
             datasets: [{
-              data: [2, 2, 1], 
-              backgroundColor: [
-                '#34d399',  
-                '#ffb84d',  
-                '#ff5c5c'  
-              ],
+              data: [2, 2, 1],
+              backgroundColor: ['#34d399', '#ffb84d', '#ff5c5c'],
               borderWidth: 0
             }]
           },
@@ -250,11 +262,17 @@
             plugins: { legend: { display: false } },
             cutout: '70%',
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            animation: {
+              duration: 1400,
+              easing: 'easeOutCubic',
+              animateRotate: true,
+              animateScale: true
+            }
           }
         });
-        const lineCtx = document.getElementById('lineChart');
-        new Chart(lineCtx, {
+
+        recreateChart("line", "lineChart", {
           type: 'line',
           data: {
             labels: ['Nov','Jan','Feb','Mar','Apr','May'],
@@ -284,15 +302,10 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false }, 
-              tooltip: {
-                backgroundColor: 'rgba(20,26,36,.95)',
-                borderColor: 'rgba(255,255,255,.08)',
-                borderWidth: 1,
-                titleColor: '#e9eef6',
-                bodyColor: 'rgba(233,238,246,.85)'
-              }
+            plugins: { legend: { display: false } },
+            animation: {
+              duration: 1500,
+              easing: 'easeOutQuart'
             },
             scales: {
               x: {
@@ -308,3 +321,4 @@
         });
     </script>
 }
+           
