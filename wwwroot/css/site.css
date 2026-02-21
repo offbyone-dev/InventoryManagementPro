@@ -979,3 +979,11 @@ td {
     gap: 10px;
     margin-top: 14px;
 }
+.active {
+    background: rgba(255,255,255,.08);
+    border-radius: 6px;
+}
+.menu-item.active {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+}

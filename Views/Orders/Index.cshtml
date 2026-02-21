@@ -4,15 +4,77 @@
 
 <div class="page-header">
     <h2 class="page-title">Orders</h2>
-    <div class="page-subtitle">Create, manage and track order status</div>
+    <div class="page-subtitle">Manage customer orders and statuses</div>
 </div>
 
-<div class="panel">
-    <div class="panel-h">
-        <div>Orders</div>
-        <div class="panel-actions"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<div class="table-wrap">
+    <div class="table-head table-toolbar">
+        <div class="table-title">Orders List</div>
+
+        <div class="table-tools">
+            <div class="tool-search">
+                <i class="bi bi-search"></i>
+                <input placeholder="Search orders..." />
+            </div>
+            <button class="btn-primary-dark"><i class="bi bi-plus"></i> Create Order</button>
+            <button class="btn-ghost">Filter <i class="bi bi-chevron-down"></i></button>
+        </div>
     </div>
-    <div class="panel-b">
-        <div class="chart-placeholder">Orders UI will be built next (status badges + view)</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:120px;">Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th style="width:190px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#O-2001</td>
+                <td>Michael</td>
+                <td>21 Feb 2026</td>
+                <td>$320</td>
+                <td><span class="badge in">Completed</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Cancel</button>
+                </td>
+            </tr>
+            <tr>
+                <td>#O-2002</td>
+                <td>Sarah</td>
+                <td>20 Feb 2026</td>
+                <td>$180</td>
+                <td><span class="badge low">Pending</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Cancel</button>
+                </td>
+            </tr>
+            <tr>
+                <td>#O-2003</td>
+                <td>Rafi</td>
+                <td>20 Feb 2026</td>
+                <td>$640</td>
+                <td><span class="badge out">Cancelled</span></td>
+                <td class="actions-wide">
+                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
+                    <button class="btn-action del"><i class="bi bi-trash"></i> Cancel</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-foot">
+        <span>Showing 1 to 3 of 3 entries</span>
+        <div class="pager">
+            <button class="pg">&lt;</button>
+            <button class="pg active">1</button>
+            <button class="pg">&gt;</button>
+        </div>
     </div>
 </div>

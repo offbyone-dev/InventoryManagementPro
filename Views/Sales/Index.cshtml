@@ -4,15 +4,149 @@
 
 <div class="page-header">
     <h2 class="page-title">Sales</h2>
-    <div class="page-subtitle">Track sales performance and revenue</div>
+    <div class="page-subtitle">Overview of revenue and recent transactions</div>
+</div>
+
+<div class="kpi-row">
+    <div class="kpi green">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-graph-up-arrow"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">$25,430</div>
+                    <div class="kpi-sub">Total Sales</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kpi blue">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-calendar2-week"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">$5,230</div>
+                    <div class="kpi-sub">This Month</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kpi orange">
+        <div class="kpi-top">
+            <div class="kpi-left">
+                <div class="kpi-icon-lg"><i class="bi bi-receipt"></i></div>
+                <div class="kpi-text">
+                    <div class="kpi-value">124</div>
+                    <div class="kpi-sub">Total Orders</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="panel">
     <div class="panel-h">
-        <div>Sales</div>
-        <div class="panel-actions"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div>Revenue Trend</div>
+        <div class="panel-actions">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
     </div>
     <div class="panel-b">
-        <div class="chart-placeholder">Sales UI will be built next (charts + list)</div>
+        <div style="height:240px;">
+            <canvas id="salesChart"></canvas>
+        </div>
     </div>
 </div>
+
+<div class="table-wrap">
+    <div class="table-head table-toolbar">
+        <div class="table-title">Recent Sales</div>
+
+        <div class="table-tools">
+            <div class="tool-search">
+                <i class="bi bi-search"></i>
+                <input placeholder="Search sales..." />
+            </div>
+            <button class="btn-ghost">Export <i class="bi bi-download"></i></button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:110px;">Sale ID</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#S-1021</td>
+                <td>21 Feb 2026</td>
+                <td>John Doe</td>
+                <td>$450</td>
+                <td><span class="badge in">Completed</span></td>
+            </tr>
+            <tr>
+                <td>#S-1022</td>
+                <td>20 Feb 2026</td>
+                <td>Alex Smith</td>
+                <td>$890</td>
+                <td><span class="badge low">Pending</span></td>
+            </tr>
+            <tr>
+                <td>#S-1023</td>
+                <td>20 Feb 2026</td>
+                <td>Mila Johnson</td>
+                <td>$210</td>
+                <td><span class="badge out">Cancelled</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-foot">
+        <span>Showing 1 to 3 of 3 entries</span>
+        <div class="pager">
+            <button class="pg">&lt;</button>
+            <button class="pg active">1</button>
+            <button class="pg">&gt;</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        Chart.defaults.color = 'rgba(233,238,246,.70)';
+        Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
+
+        const ctx = document.getElementById('salesChart');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+            datasets: [{
+              label: 'Revenue',
+              data: [1200,1900,3000,2500,3200,4000],
+              borderColor: '#60a5fa',
+              backgroundColor: 'rgba(96,165,250,.10)',
+              tension: .35,
+              fill: true,
+              pointRadius: 0,
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } },
+              y: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } }
+            }
+          }
+        });
+    </script>
+}
