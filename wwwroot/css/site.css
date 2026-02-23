@@ -983,6 +983,10 @@ td {
     background: rgba(255,255,255,.08);
     border-radius: 6px;
 }
+.menu-item:hover {
+    background: rgba(255,255,255,.05);
+}
+
 .menu-item.active {
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.10);
