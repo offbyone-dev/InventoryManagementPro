@@ -10,6 +10,8 @@ public class Product
 
     [StringLength(60)]
     public string? Sku { get; set; }
+    [StringLength(60)]
+    public string? Category { get; set; }
 
     [Range(0, double.MaxValue)]
     public decimal Price { get; set; }

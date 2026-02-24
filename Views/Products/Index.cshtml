@@ -1,5 +1,14 @@
-﻿@{
+﻿@model List<InventoryManagementPro.Models.Product>
+
+@{
     ViewData["Title"] = "Products";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div style="margin-bottom:12px; padding:10px; border-radius:8px; background:#1f2a36; color:#4ade80;">
+        @TempData["Success"]
+    </div>
 }
 
 <div class="table-wrap">
@@ -7,6 +16,24 @@
         <div class="table-title">Products</div>
 
         <div class="table-tools">
+            <form method="get" asp-action="Index" style="display:flex; gap:0;">
+                <input type="text" name="q"
+                       value="@(ViewBag.Search ?? "")"
+                       placeholder="Search..."
+                       style="padding:8px 12px;
+                  border-radius:8px 0 0 8px;
+                  border:1px solid #2d3748;
+                  background:#1f2937;
+                  color:white;" />
+                <button type="submit"
+                        style="padding:8px 14px;
+                   border-radius:0 8px 8px 0;
+                   border:1px solid #2d3748;
+                   background:#2563eb;
+                   color:white;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
             <button class="btn-primary-dark" type="button" onclick="openModal()">
                 <i class="bi bi-plus"></i> Add Product
             </button>
@@ -22,21 +49,57 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Status</th>
+                <th style="width:80px;">Action</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Laptop</td>
-                <td>Electronics</td>
-                <td>$1200</td>
-                <td>10</td>
-                <td><span class="badge in">In Stock</span></td>
-            </tr>
+            @if (Model == null || Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="7" style="padding:15px;">No products found.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var p in Model)
+                {
+                    var statusText = p.Stock <= 0 ? "Out of Stock"
+                    : (p.Stock <= p.ReorderLevel ? "Low Stock"
+                    : "In Stock");
+
+                    var badgeClass = p.Stock <= 0 ? "out"
+                    : (p.Stock <= p.ReorderLevel ? "low"
+                    : "in");
+
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Name</td>
+                        <td>@(p.Category ?? "-")</td>
+                        <td>$@p.Price</td>
+                        <td>@p.Stock</td>
+                        <td>
+                            <span class="badge @badgeClass">@statusText</span>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@p.Id" class="btn-ghost" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form asp-action="Delete" asp-controller="Products" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@p.Id" />
+                                <button type="submit" class="btn-ghost"
+                                        onclick="return confirm('Delete this product?');">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>
-
 <div class="modal-overlay" id="productModal" onclick="closeModal()">
     <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-header">
@@ -44,42 +107,54 @@
             <button type="button" class="modal-close" onclick="closeModal()">✕</button>
         </div>
 
-        <div class="modal-body">
-            <div class="form-row">
-                <label>Product Name</label>
-                <input type="text" />
-            </div>
-            <div class="form-row">
-                <label>Category</label>
-                <input type="text" />
-            </div>
-            <div class="form-row">
-                <label>Price</label>
-                <input type="number" />
-            </div>
-            <div class="form-row">
-                <label>Quantity</label>
-                <input type="number" />
-            </div>
-        </div>
+        <form asp-action="Create" asp-controller="Products" method="post">
+            @Html.AntiForgeryToken()
 
-        <div class="modal-footer">
-            <button type="button" class="btn-ghost" onclick="closeModal()">Cancel</button>
-            <button type="button" class="btn-primary-dark">Save</button>
-        </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <label>Product Name</label>
+                    <input type="text" name="Name" required />
+                </div>
+
+                <div class="form-row">
+                    <label>Category</label>
+                    <input type="text" name="Category" />
+                </div>
+
+                <div class="form-row">
+                    <label>Price</label>
+                    <input type="number" name="Price" step="0.01" min="0" required />
+                </div>
+
+                <div class="form-row">
+                    <label>Quantity</label>
+                    <input type="number" name="Stock" min="0" required />
+                </div>
+
+                <input type="hidden" name="ReorderLevel" value="5" />
+                <input type="hidden" name="IsActive" value="true" />
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-ghost" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn-primary-dark">Save</button>
+            </div>
+        </form>
     </div>
 </div>
 
 @section Scripts {
     <script>
-        function openModal(){
+        function openModal() {
             document.getElementById("productModal").style.display = "flex";
         }
-        function closeModal(){
+
+        function closeModal() {
             document.getElementById("productModal").style.display = "none";
         }
-             document.addEventListener('keydown', function(e){
-          if(e.key === 'Escape') closeModal();
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeModal();
         });
     </script>
 }

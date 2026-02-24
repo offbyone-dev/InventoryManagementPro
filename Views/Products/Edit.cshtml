@@ -1,0 +1,42 @@
+﻿@model InventoryManagementPro.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="table-wrap">
+    <div class="table-head">
+        <div class="table-title">Edit Product</div>
+    </div>
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+        <div class="form-row">
+            <label>Name</label>
+            <input asp-for="Name" />
+        </div>
+        <div class="form-row">
+            <label>Category</label>
+            <input asp-for="Category" />
+        </div>
+
+        <div class="form-row">
+            <label>Price</label>
+            <input asp-for="Price" type="number" step="0.01" />
+        </div>
+
+        <div class="form-row">
+            <label>Quantity</label>
+            <input asp-for="Stock" type="number" />
+        </div>
+
+        <input type="hidden" asp-for="ReorderLevel" />
+        <input type="hidden" asp-for="IsActive" />
+
+        <br />
+        <button type="submit" class="btn-primary-dark">Update</button>
+        <a asp-action="Index" class="btn-ghost">Cancel</a>
+    </form>
+</div>
