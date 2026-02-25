@@ -1019,3 +1019,23 @@ td {
     display: flex;
     justify-content: flex-end;
 }
+.form-row select.form-control,
+.modal-body select.form-control,
+.form-row select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid #2d3748;
+    background: #1f2937;
+    color: #e5e7eb;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+    .form-row select:focus,
+    .modal-body select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, .25);
+    }

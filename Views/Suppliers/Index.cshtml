@@ -1,69 +1,78 @@
-﻿@{
+﻿@model List<InventoryManagementPro.Models.Supplier>
+
+@{
     ViewData["Title"] = "Suppliers";
 }
 
-<div class="page-header">
-    <h2 class="page-title">Suppliers</h2>
-    <div class="page-subtitle">Manage all product suppliers</div>
-</div>
+@if (TempData["Success"] != null)
+{
+    <div style="margin-bottom:12px; padding:10px; border-radius:10px; background: rgba(46, 204, 113, .12); border: 1px solid rgba(46, 204, 113, .25);">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+    </div>
+}
 
 <div class="table-wrap">
     <div class="table-head table-toolbar">
-        <div class="table-title">Suppliers List</div>
+        <div class="table-title">Suppliers</div>
 
         <div class="table-tools">
-            <div class="tool-search">
-                <i class="bi bi-search"></i>
-                <input placeholder="Search suppliers..." />
-            </div>
-            <button class="btn-primary-dark">
+            <a class="btn-primary-dark" asp-action="Create">
                 <i class="bi bi-plus"></i> Add Supplier
-            </button>
+            </a>
         </div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width:80px;">ID</th>
+                <th>ID</th>
                 <th>Name</th>
-                <th>Email</th>
                 <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
                 <th>Status</th>
-                <th style="width:190px;">Actions</th>
+                <th style="width:90px;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>ABC Traders</td>
-                <td>abc7@email.com</td>
-                <td>+880123457789</td>
-                <td><span class="badge in">Active</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Global Supply Co.</td>
-                <td>globalsupply@email.com</td>
-                <td>+880987954321</td>
-                <td><span class="badge low">Pending</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6">No suppliers found.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@s.Id</td>
+                        <td>@s.Name</td>
+                        <td>@s.Phone</td>
+                        <td>@s.Email</td>
+                        <td>@s.Address</td>
+                        <td>
+                            <span class="badge @(s.IsActive ? "in" : "out")">
+                                @(s.IsActive ? "Active" : "Inactive")
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@s.Id" class="btn-ghost">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <form asp-action="Delete" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@s.Id" />
+                                <button type="submit" class="btn-ghost"
+                                        onclick="return confirm('Delete this supplier?');">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
-    <div class="table-foot">
-        <span>Showing 1 to 2 of 2 entries</span>
-        <div class="pager">
-            <button class="pg">&lt;</button>
-            <button class="pg active">1</button>
-            <button class="pg">&gt;</button>
-        </div>
-    </div>
 </div>

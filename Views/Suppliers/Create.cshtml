@@ -1,0 +1,46 @@
+﻿@model InventoryManagementPro.Models.Supplier
+
+@{
+    ViewData["Title"] = "Add Supplier";
+}
+
+<div class="table-wrap">
+    <div class="table-head">
+        <div class="table-title">Add Supplier</div>
+    </div>
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-row">
+            <label>Name</label>
+            <input asp-for="Name" required />
+        </div>
+
+        <div class="form-row">
+            <label>Phone</label>
+            <input asp-for="Phone" />
+        </div>
+
+        <div class="form-row">
+            <label>Email</label>
+            <input asp-for="Email" />
+        </div>
+
+        <div class="form-row">
+            <label>Address</label>
+            <input asp-for="Address" />
+        </div>
+
+        <div class="form-row">
+            <label>Status</label>
+            <select asp-for="IsActive">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary-dark">Save</button>
+        <a href="@Url.Action("Index", "Suppliers")" class="btn-ghost">Cancel</a>
+    </form>
+</div>

@@ -1,18 +1,16 @@
 ﻿@model InventoryManagementPro.Models.Product
 
 @{
-    ViewData["Title"] = "Edit Product";
+    ViewData["Title"] = "Add Product";
 }
 
 <div class="table-wrap">
     <div class="table-head">
-        <div class="table-title">Edit Product</div>
+        <div class="table-title">Add Product</div>
     </div>
 
-    <form asp-action="Edit" method="post">
+    <form asp-action="Create" method="post">
         @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="Id" />
-
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-row">
@@ -69,7 +67,7 @@
 
         <br />
 
-        <button type="submit" class="btn-primary-dark">Update</button>
+        <button type="submit" class="btn-primary-dark">Save</button>
         <a asp-action="Index" class="btn-ghost">Cancel</a>
     </form>
 </div>

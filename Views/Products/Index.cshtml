@@ -21,19 +21,20 @@
                        value="@(ViewBag.Search ?? "")"
                        placeholder="Search..."
                        style="padding:8px 12px;
-                  border-radius:8px 0 0 8px;
-                  border:1px solid #2d3748;
-                  background:#1f2937;
-                  color:white;" />
+                              border-radius:8px 0 0 8px;
+                              border:1px solid #2d3748;
+                              background:#1f2937;
+                              color:white;" />
                 <button type="submit"
                         style="padding:8px 14px;
-                   border-radius:0 8px 8px 0;
-                   border:1px solid #2d3748;
-                   background:#2563eb;
-                   color:white;">
+                               border-radius:0 8px 8px 0;
+                               border:1px solid #2d3748;
+                               background:#2563eb;
+                               color:white;">
                     <i class="bi bi-search"></i>
                 </button>
             </form>
+
             <button class="btn-primary-dark" type="button" onclick="openModal()">
                 <i class="bi bi-plus"></i> Add Product
             </button>
@@ -49,6 +50,7 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Status</th>
+                <th>Supplier</th>
                 <th style="width:80px;">Action</th>
             </tr>
         </thead>
@@ -57,7 +59,7 @@
             @if (Model == null || Model.Count == 0)
             {
                 <tr>
-                    <td colspan="7" style="padding:15px;">No products found.</td>
+                    <td colspan="8" style="padding:15px;">No products found.</td>
                 </tr>
             }
             else
@@ -81,10 +83,12 @@
                         <td>
                             <span class="badge @badgeClass">@statusText</span>
                         </td>
+                        <td>@(p.Supplier?.Name ?? "-")</td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@p.Id" class="btn-ghost" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
+
                             <form asp-action="Delete" asp-controller="Products" method="post">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@p.Id" />
@@ -129,6 +133,18 @@
                 <div class="form-row">
                     <label>Quantity</label>
                     <input type="number" name="Stock" min="0" required />
+                </div>
+
+                <div class="form-row">
+                    <label>Supplier</label>
+                    <select name="SupplierId" class="form-control">
+                        <option value="">Select Supplier</option>
+                        @foreach (var supplier in (ViewBag.Suppliers as List<InventoryManagementPro.Models.Supplier>
+                                                ?? new List<InventoryManagementPro.Models.Supplier>()))
+                        {
+                            <option value="@supplier.Id">@supplier.Name</option>
+                        }
+                    </select>
                 </div>
 
                 <input type="hidden" name="ReorderLevel" value="5" />
