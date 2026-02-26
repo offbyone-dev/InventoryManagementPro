@@ -1,4 +1,7 @@
-﻿@{
+﻿@model InventoryManagementPro.Models.ViewModels.SalesVM
+@using System.Text.Json
+
+@{
     ViewData["Title"] = "Sales";
 }
 
@@ -13,7 +16,7 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-graph-up-arrow"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">$25,430</div>
+                    <div class="kpi-value">$@Model.TotalSales</div>
                     <div class="kpi-sub">Total Sales</div>
                 </div>
             </div>
@@ -25,7 +28,7 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-calendar2-week"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">$5,230</div>
+                    <div class="kpi-value">$@Model.ThisMonthSales</div>
                     <div class="kpi-sub">This Month</div>
                 </div>
             </div>
@@ -37,7 +40,7 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-receipt"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">124</div>
+                    <div class="kpi-value">@Model.TotalOrders</div>
                     <div class="kpi-sub">Total Orders</div>
                 </div>
             </div>
@@ -64,58 +67,89 @@
         <div class="table-title">Recent Sales</div>
 
         <div class="table-tools">
-            <div class="tool-search">
+            <form method="get" asp-action="Index" class="tool-search">
                 <i class="bi bi-search"></i>
-                <input placeholder="Search sales..." />
-            </div>
-            <button class="btn-ghost">Export <i class="bi bi-download"></i></button>
+                <input name="q" value="@Model.Query" placeholder="Search sales..." />
+            </form>
+
+            <a class="btn-ghost"
+               asp-action="ExportCsv"
+               asp-route-q="@Model.Query">
+                Export <i class="bi bi-download"></i>
+            </a>
         </div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width:110px;">Sale ID</th>
-                <th>Date</th>
+                <th style="width:170px;">Sale ID</th>
+                <th style="width:140px;">Date</th>
                 <th>Customer</th>
-                <th>Amount</th>
-                <th>Status</th>
+                <th style="width:140px;">Amount</th>
+                <th style="width:140px;">Status</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr>
-                <td>#S-1021</td>
-                <td>21 Feb 2026</td>
-                <td>John Doe</td>
-                <td>$450</td>
-                <td><span class="badge in">Completed</span></td>
-            </tr>
-            <tr>
-                <td>#S-1022</td>
-                <td>20 Feb 2026</td>
-                <td>Alex Smith</td>
-                <td>$890</td>
-                <td><span class="badge low">Pending</span></td>
-            </tr>
-            <tr>
-                <td>#S-1023</td>
-                <td>20 Feb 2026</td>
-                <td>Mila Johnson</td>
-                <td>$210</td>
-                <td><span class="badge out">Cancelled</span></td>
-            </tr>
+            @if (Model.RecentOrders != null && Model.RecentOrders.Any())
+            {
+                foreach (var o in Model.RecentOrders)
+                {
+                    var badgeClass = o.Status == "Completed" ? "in" : o.Status == "Pending" ? "low" : "out";
+
+                    <tr>
+                        <td>@o.OrderNo</td>
+                        <td>@o.OrderDateUtc.ToLocalTime().ToString("dd MMM yyyy")</td>
+                        <td>@(o.CustomerName ?? "-")</td>
+                        <td>$@o.TotalAmount</td>
+                        <td><span class="badge @badgeClass">@o.Status</span></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" style="text-align:center; opacity:.7;">No sales found</td>
+                </tr>
+            }
         </tbody>
     </table>
 
     <div class="table-foot">
-        <span>Showing 1 to 3 of 3 entries</span>
+        <span>
+            Showing @Model.RecentOrders.Count of @Model.TotalCount entries
+        </span>
+
         <div class="pager">
-            <button class="pg">&lt;</button>
-            <button class="pg active">1</button>
-            <button class="pg">&gt;</button>
+            @{
+                var prevDisabled = Model.CurrentPage <= 1 ? "disabled" : "";
+                var nextDisabled = Model.CurrentPage >= Model.TotalPages ? "disabled" : "";
+            }
+
+            <a class="pg @prevDisabled"
+               asp-action="Index"
+               asp-route-q="@Model.Query"
+               asp-route-page="@(Model.CurrentPage - 1)">
+                &lt;
+            </a>
+
+            <span class="pg active">@Model.CurrentPage</span>
+
+            <a class="pg @nextDisabled"
+               asp-action="Index"
+               asp-route-q="@Model.Query"
+               asp-route-page="@(Model.CurrentPage + 1)">
+                &gt;
+            </a>
         </div>
     </div>
 </div>
+
+<script>
+    const revenueLabels = @Html.Raw(JsonSerializer.Serialize(Model.RevenueLabels));
+    const revenueData = @Html.Raw(JsonSerializer.Serialize(Model.RevenueData));
+</script>
 
 @section Scripts {
     <script>
@@ -126,10 +160,10 @@
         new Chart(ctx, {
           type: 'line',
           data: {
-            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+            labels: revenueLabels,
             datasets: [{
               label: 'Revenue',
-              data: [1200,1900,3000,2500,3200,4000],
+              data: revenueData,
               borderColor: '#60a5fa',
               backgroundColor: 'rgba(96,165,250,.10)',
               tension: .35,

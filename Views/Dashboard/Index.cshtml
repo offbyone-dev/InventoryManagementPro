@@ -1,4 +1,6 @@
-﻿@{
+﻿@model InventoryManagementPro.Models.ViewModels.DashboardVM
+@using System.Text.Json
+@{
     ViewData["Title"] = "Dashboard";
 }
 
@@ -8,15 +10,15 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-lock"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">150</div>
+                    <div class="kpi-value">@Model.TotalProducts</div>
                     <div class="kpi-sub">Total Products</div>
                 </div>
             </div>
         </div>
-        <div class="kpi-bottom kpi-bottom-link">
+        <a class="kpi-bottom kpi-bottom-link" asp-controller="Products" asp-action="Index">
             <span>View Products</span>
             <i class="bi bi-chevron-right"></i>
-        </div>
+        </a>
     </div>
 
     <div class="kpi orange">
@@ -24,15 +26,15 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-currency-dollar"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">$12,450</div>
+                    <div class="kpi-value">$@Model.RevenueThisMonth</div>
                     <div class="kpi-sub">This Month</div>
                 </div>
             </div>
         </div>
-        <div class="kpi-bottom kpi-bottom-link">
+        <a class="kpi-bottom kpi-bottom-link" asp-controller="Sales" asp-action="Index">
             <span>View Sales</span>
             <i class="bi bi-chevron-right"></i>
-        </div>
+        </a>
     </div>
 
     <div class="kpi red">
@@ -40,15 +42,15 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-exclamation-triangle"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">8</div>
+                    <div class="kpi-value">@Model.LowStockCount</div>
                     <div class="kpi-sub">Low Stock Alerts</div>
                 </div>
             </div>
         </div>
-        <div class="kpi-bottom kpi-bottom-link">
+        <a class="kpi-bottom kpi-bottom-link" asp-controller="Products" asp-action="Index">
             <span>View Alerts</span>
             <i class="bi bi-chevron-right"></i>
-        </div>
+        </a>
     </div>
 
     <div class="kpi blue">
@@ -56,15 +58,15 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-receipt"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">320</div>
+                    <div class="kpi-value">@Model.TotalOrders</div>
                     <div class="kpi-sub">Total Orders</div>
                 </div>
             </div>
         </div>
-        <div class="kpi-bottom kpi-bottom-link">
+        <a class="kpi-bottom kpi-bottom-link" asp-controller="Orders" asp-action="Index">
             <span>View Orders</span>
             <i class="bi bi-chevron-right"></i>
-        </div>
+        </a>
     </div>
 </div>
 
@@ -72,28 +74,17 @@
     <div class="panel">
         <div class="panel-h">
             <div>Stock Products</div>
-            <div class="panel-actions">
-                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
         </div>
-        <div class="panel-b chart-split">
-            <div class="chart-box">
-                <div class="chart-placeholder">
-                    <div style="height:200px;">
-                        <canvas id="donutChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-legend">
-                <div class="legend-item"><span class="legend-dot green"></span> In Stock</div>
-                <div class="legend-item"><span class="legend-dot orange"></span> Low Stock</div>
-                <div class="legend-item"><span class="legend-dot red"></span> Out of Stock</div>
 
-                <div class="legend-list">
-                    <div class="legend-row"><span>Mouse</span><b>2</b></div>
-                    <div class="legend-row"><span>Printer Paper</span><b>3</b></div>
-                    <div class="legend-row"><span>Monitor</span><b>4</b></div>
-                </div>
+        <div class="panel-b chart-split">
+            <div style="height:200px;">
+                <canvas id="donutChart"></canvas>
+            </div>
+
+            <div class="chart-legend">
+                <div class="legend-row"><span>In Stock</span><b>@Model.InStockCount</b></div>
+                <div class="legend-row"><span>Low Stock</span><b>@Model.LowStockCount</b></div>
+                <div class="legend-row"><span>Out of Stock</span><b>@Model.OutOfStockCount</b></div>
             </div>
         </div>
     </div>
@@ -101,224 +92,161 @@
     <div class="panel">
         <div class="panel-h">
             <div>Sales Overview</div>
-            <div class="panel-right">
-                <div class="mini-legend">
-                    <span class="mini-pill"><span class="legend-dot blue"></span> Sales</span>
-                    <span class="mini-pill"><span class="legend-dot green"></span> Revenue</span>
-                </div>
-                <div class="panel-actions">
-                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                </div>
-            </div>
         </div>
         <div class="panel-b">
-            <div class="chart-placeholder">
-                <div style="height:220px;">
-                    <canvas id="lineChart"></canvas>
-                </div>
+            <div style="height:220px;">
+                <canvas id="lineChart"></canvas>
             </div>
         </div>
     </div>
 </div>
 
 <div class="table-wrap">
-    <div class="table-head table-toolbar">
+    <div class="table-head">
         <div class="table-title">Inventory List</div>
-
-        <div class="table-tools">
-            <div class="tool-search">
-                <i class="bi bi-search"></i>
-                <input placeholder="Search..." />
-            </div>
-            <button class="btn-primary-dark"><i class="bi bi-plus"></i> Add Product</button>
-            <button class="btn-ghost">View All <i class="bi bi-chevron-down"></i></button>
-        </div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width:70px;">ID</th>
-                <th>Product Name</th>
+                <th>ID</th>
+                <th>Product</th>
                 <th>Category</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Status</th>
-                <th style="width:190px;">Actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr>
-                <td>1</td>
-                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-laptop"></i></span> Laptop</td>
-                <td>Electronics</td>
-                <td>8</td>
-                <td>$1499</td>
-                <td><span class="badge in">In Stock</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
+            @if (Model.RecentProducts != null && Model.RecentProducts.Any())
+            {
+                foreach (var p in Model.RecentProducts)
+                {
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Name</td>
+                        <td>@p.Category</td>
+                        <td>@p.Stock</td>
+                        <td>$@p.Price</td>
+                        <td>
+                            @{
+                                var statusClass = p.Stock <= 0 ? "out"
+                                : (p.Stock <= p.ReorderLevel ? "low" : "in");
 
-            <tr>
-                <td>2</td>
-                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-phone"></i></span> Smartphone</td>
-                <td>Electronics</td>
-                <td>5</td>
-                <td>$1299</td>
-                <td><span class="badge low">Low Stock</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
+                                var statusText = p.Stock <= 0 ? "Out of Stock"
+                                : (p.Stock <= p.ReorderLevel ? "Low Stock" : "In Stock");
+                            }
+                            <span class="badge @statusClass">@statusText</span>
+                        </td>
+                        <td>
+                            <a asp-controller="Products"
+                               asp-action="Edit"
+                               asp-route-id="@p.Id"
+                               class="btn-action edit">
+                                Edit
+                            </a>
 
-            <tr>
-                <td>3</td>
-                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-headphones"></i></span> Headphones</td>
-                <td>Accessories</td>
-                <td>4</td>
-                <td>$2499</td>
-                <td><span class="badge low">Low Stock</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>4</td>
-                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-keyboard"></i></span> Keyboard</td>
-                <td>Accessories</td>
-                <td>5</td>
-                <td>$999</td>
-                <td><span class="badge in">In Stock</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>5</td>
-                <td class="prod-cell"><span class="prod-ico"><i class="bi bi-cup-hot"></i></span> Desk Chair</td>
-                <td>Furniture</td>
-                <td>6</td>
-                <td>$1299</td>
-                <td><span class="badge out">Out of Stock</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-pencil-square"></i> Edit</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Delete</button>
-                </td>
-            </tr>
+                            <form asp-controller="Products"
+                                  asp-action="Delete"
+                                  asp-route-id="@p.Id"
+                                  method="post"
+                                  style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn-action del">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" style="text-align:center; opacity:.7;">
+                        No products found
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 
     <div class="table-foot">
-        <span>Showing 1 to 5 of 5 entries</span>
-        <div class="pager">
-            <button class="pg">&lt;</button>
-            <button class="pg active">1</button>
-            <button class="pg">&gt;</button>
-        </div>
+        <span>
+            Showing @Model.RecentProducts?.Count() of @Model.RecentProducts?.Count() entries
+        </span>
     </div>
 </div>
 
+<script>
+    const revenueLabels = @Html.Raw(JsonSerializer.Serialize(Model.RevenueLabels));
+    const revenueData   = @Html.Raw(JsonSerializer.Serialize(Model.RevenueData));
+    const salesData     = @Html.Raw(JsonSerializer.Serialize(Model.SalesCounts)); 
+    const stockData     = @Html.Raw(JsonSerializer.Serialize(
+                new[] { Model.InStockCount, Model.LowStockCount, Model.OutOfStockCount }
+        ));
+</script>
 
 @section Scripts {
     <script>
         Chart.defaults.color = 'rgba(233,238,246,.70)';
-        Chart.defaults.font.family = 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial';
         Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
 
-        window._imsCharts ??= {};
-
-        function recreateChart(key, canvasId, config) {
-          const el = document.getElementById(canvasId);
-          if (!el || !window.Chart) return;
-
-          if (window._imsCharts[key]) {
-            window._imsCharts[key].destroy();
-            window._imsCharts[key] = null;
-          }
-
-          setTimeout(() => {
-            window._imsCharts[key] = new Chart(el, config);
-          }, 80);
-        }
-
-        recreateChart("donut", "donutChart", {
-          type: 'doughnut',
-          data: {
-            labels: ['In Stock', 'Low Stock', 'Out of Stock'],
-            datasets: [{
-              data: [2, 2, 1],
-              backgroundColor: ['#34d399', '#ffb84d', '#ff5c5c'],
-              borderWidth: 0
-            }]
-          },
-          options: {
-            plugins: { legend: { display: false } },
-            cutout: '70%',
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-              duration: 1400,
-              easing: 'easeOutCubic',
-              animateRotate: true,
-              animateScale: true
-            }
-          }
-        });
-
-        recreateChart("line", "lineChart", {
-          type: 'line',
-          data: {
-            labels: ['Nov','Jan','Feb','Mar','Apr','May'],
-            datasets: [
-              {
-                label: 'Sales',
-                data: [300, 1200, 3900, 2600, 5200, 4300],
-                borderColor: '#60a5fa',
-                backgroundColor: 'rgba(96,165,250,.10)',
-                tension: .35,
-                fill: false,
-                pointRadius: 0,
-                borderWidth: 2
-              },
-              {
-                label: 'Revenue',
-                data: [200, 900, 1600, 2100, 3200, 4700],
-                borderColor: '#34d399',
-                backgroundColor: 'rgba(52,211,153,.08)',
-                tension: .35,
-                fill: false,
-                pointRadius: 0,
-                borderWidth: 2
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            animation: {
-              duration: 1500,
-              easing: 'easeOutQuart'
+        new Chart(document.getElementById('donutChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['In Stock', 'Low Stock', 'Out of Stock'],
+                datasets: [{
+                    data: stockData,
+                    backgroundColor: ['#34d399', '#ffb84d', '#ff5c5c'],
+                    borderWidth: 0
+                }]
             },
-            scales: {
-              x: {
-                ticks: { color: 'rgba(233,238,246,.45)' },
-                grid: { color: 'rgba(255,255,255,.05)' }
-              },
-              y: {
-                ticks: { color: 'rgba(233,238,246,.45)' },
-                grid: { color: 'rgba(255,255,255,.05)' }
-              }
+            options: {
+                plugins: { legend: { display: false } },
+                cutout: '70%',
+                responsive: true,
+                maintainAspectRatio: false
             }
-          }
+        });
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels: revenueLabels,
+                datasets: [
+                    {
+                        label: 'Sales',
+                        data: salesData,
+                        borderColor: '#34d399',
+                        backgroundColor: 'rgba(52,211,153,.10)',
+                        tension: .35,
+                        fill: false,
+                        pointRadius: 0,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Revenue',
+                        data: revenueData,
+                        borderColor: '#60a5fa',
+                        backgroundColor: 'rgba(96,165,250,.10)',
+                        tension: .35,
+                        fill: false,
+                        pointRadius: 0,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { color: 'rgba(255,255,255,.05)' } },
+                    y: { grid: { color: 'rgba(255,255,255,.05)' } }
+                }
+            }
         });
     </script>
 }
-           
