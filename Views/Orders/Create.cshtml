@@ -1,0 +1,80 @@
+﻿@model InventoryManagementPro.Models.Order
+@{
+    ViewData["Title"] = "Create Order";
+    var products = ViewBag.Products as List<InventoryManagementPro.Models.Product> ?? new();
+}
+
+<div class="page-header">
+    <h2 class="page-title">Create Order</h2>
+    <div class="page-subtitle">Create a new customer order</div>
+</div>
+
+<div class="order-form-container">
+    <form method="post" class="order-form">
+        @Html.AntiForgeryToken()
+
+        <div class="order-group">
+            <label>Customer Name</label>
+            <input type="text" name="CustomerName" class="form-control" placeholder="Enter customer name" required />
+        </div>
+
+        <div class="order-group">
+            <label>Status</label>
+            <input type="text" name="Status" value="Pending" class="form-control" readonly />
+        </div>
+
+        <hr class="order-divider" />
+
+        <h4 class="order-section-title">Order Items</h4>
+
+        <div id="items" class="order-items">
+            <div class="item-row">
+                <select name="productIds" class="form-control" required>
+                    <option value="">-- Select Product --</option>
+                    @foreach (var p in products)
+                    {
+                        <option value="@p.Id">@p.Name (Stock: @p.Stock)</option>
+                    }
+                </select>
+
+                <input type="number" name="quantities" class="form-control qty-input" min="1" value="1" required />
+
+                <button type="button" class="btn btn-danger remove-btn">Remove</button>
+            </div>
+        </div>
+
+        <button type="button" id="addItem" class="btn btn-secondary">+ Add Item</button>
+
+        <div class="order-actions">
+            <button type="submit" class="btn-primary-dark">
+                <i class="bi bi-check2-circle"></i> Create Order
+            </button>
+
+            <a asp-action="Index" class="btn-ghost">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const items = document.getElementById("items");
+    const addBtn = document.getElementById("addItem");
+
+    addBtn.addEventListener("click", () => {
+        const first = items.querySelector(".item-row");
+        const clone = first.cloneNode(true);
+
+        clone.querySelector('select[name="productIds"]').value = "";
+        clone.querySelector('input[name="quantities"]').value = 1;
+
+        items.appendChild(clone);
+    });
+
+    items.addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-btn")) {
+            const rows = items.querySelectorAll(".item-row");
+            if (rows.length > 1) e.target.closest(".item-row").remove();
+        }
+    });
+</script>

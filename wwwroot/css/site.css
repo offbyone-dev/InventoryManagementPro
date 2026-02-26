@@ -1039,3 +1039,76 @@ td {
         border-color: #2563eb;
         box-shadow: 0 0 0 3px rgba(37, 99, 235, .25);
     }
+
+.order-form-container {
+    max-width: 900px;
+    margin-top: 20px;
+}
+
+.order-group {
+    margin-bottom: 18px;
+}
+
+    .order-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #cbd5e1;
+    }
+
+    .order-group input,
+    .order-group select {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid #2a2f3a;
+        background: #0f172a;
+        color: #fff;
+    }
+
+.order-items {
+    margin-top: 20px;
+}
+
+.item-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+    .item-row select,
+    .item-row input {
+        flex: 1;
+    }
+
+.order-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+select.form-control {
+    background-color: #0f172a !important;
+    color: #fff !important;
+    border: 1px solid #2a2f3a !important;
+}
+
+    select.form-control option {
+        background-color: #0f172a;
+        color: #fff;
+    }
+.item-row select {
+    min-width: 250px;
+}
+input[type="number"].form-control {
+    background-color: #0f172a !important;
+    color: #fff !important;
+    border: 1px solid #2a2f3a !important;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    filter: invert(1);
+}
+.item-row input[type="number"] {
+    max-width: 140px;
+}

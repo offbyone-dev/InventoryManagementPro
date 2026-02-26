@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<InventoryManagementPro.Models.Order>
+
+@{
     ViewData["Title"] = "Orders";
 }
 
@@ -12,12 +14,14 @@
         <div class="table-title">Orders List</div>
 
         <div class="table-tools">
-            <div class="tool-search">
+            <form method="get" asp-action="Index" class="tool-search">
                 <i class="bi bi-search"></i>
-                <input placeholder="Search orders..." />
-            </div>
-            <button class="btn-primary-dark"><i class="bi bi-plus"></i> Create Order</button>
-            <button class="btn-ghost">Filter <i class="bi bi-chevron-down"></i></button>
+                <input name="q" value="@ViewBag.Q" placeholder="Search orders..." />
+            </form>
+
+            <a class="btn-primary-dark" asp-action="Create">
+                <i class="bi bi-plus"></i> Create Order
+            </a>
         </div>
     </div>
 
@@ -32,49 +36,52 @@
                 <th style="width:190px;">Actions</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr>
-                <td>#O-2001</td>
-                <td>Michael</td>
-                <td>21 Feb 2026</td>
-                <td>$320</td>
-                <td><span class="badge in">Completed</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Cancel</button>
-                </td>
-            </tr>
-            <tr>
-                <td>#O-2002</td>
-                <td>Sarah</td>
-                <td>20 Feb 2026</td>
-                <td>$180</td>
-                <td><span class="badge low">Pending</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Cancel</button>
-                </td>
-            </tr>
-            <tr>
-                <td>#O-2003</td>
-                <td>Rafi</td>
-                <td>20 Feb 2026</td>
-                <td>$640</td>
-                <td><span class="badge out">Cancelled</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
-                    <button class="btn-action del"><i class="bi bi-trash"></i> Cancel</button>
-                </td>
-            </tr>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var o in Model)
+                {
+                    <tr>
+                        <td>@o.OrderNo</td>
+                        <td>@(o.CustomerName ?? "-")</td>
+                        <td>@o.OrderDateUtc.ToLocalTime().ToString("dd MMM yyyy")</td>
+                        <td>$@o.TotalAmount</td>
+                        <td>
+                            <span class="badge @(o.Status == "Completed" ? "in" : o.Status == "Pending" ? "low" : "out")">
+                                @o.Status
+                            </span>
+                        </td>
+                        <td class="actions-wide">
+                            <a class="btn-action edit" asp-action="Details" asp-route-id="@o.Id">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+
+                            <form asp-action="Cancel" asp-route-id="@o.Id" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn-action del">
+                                    <i class="bi bi-trash"></i> Cancel
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" style="text-align:center; opacity:.7;">No orders found</td>
+                </tr>
+            }
         </tbody>
     </table>
 
     <div class="table-foot">
-        <span>Showing 1 to 3 of 3 entries</span>
+        <span>Showing @Model?.Count() of @Model?.Count() entries</span>
         <div class="pager">
-            <button class="pg">&lt;</button>
-            <button class="pg active">1</button>
-            <button class="pg">&gt;</button>
+            <button class="pg" type="button">&lt;</button>
+            <button class="pg active" type="button">1</button>
+            <button class="pg" type="button">&gt;</button>
         </div>
     </div>
 </div>

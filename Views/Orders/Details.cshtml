@@ -1,0 +1,42 @@
+﻿@model InventoryManagementPro.Models.Order
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details</h2>
+
+<div style="margin-bottom:16px;">
+    <p><b>Order No:</b> @Model.OrderNo</p>
+    <p><b>Customer:</b> @(Model.CustomerName ?? "-")</p>
+    <p><b>Date:</b> @Model.OrderDateUtc.ToLocalTime().ToString("dd MMM yyyy")</p>
+    <p><b>Status:</b> @Model.Status</p>
+    <p><b>Total:</b> $@Model.TotalAmount</p>
+</div>
+
+<hr />
+
+<h4>Items</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Line Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Items)
+        {
+            <tr>
+                <td>@i.Product?.Name</td>
+                <td>@i.Quantity</td>
+                <td>$@i.UnitPrice</td>
+                <td>$@i.LineTotal</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>

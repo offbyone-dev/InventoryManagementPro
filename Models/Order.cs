@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 namespace InventoryManagementPro.Models;
 
 public class Order
@@ -9,6 +10,7 @@ public class Order
     public string OrderNo { get; set; } = $"ORD-{DateTime.UtcNow:yyyyMMddHHmmss}";
 
     public DateTime OrderDateUtc { get; set; } = DateTime.UtcNow;
+    public string? CustomerName { get; set; }
 
     [StringLength(20)]
     public string Status { get; set; } = "Pending";
