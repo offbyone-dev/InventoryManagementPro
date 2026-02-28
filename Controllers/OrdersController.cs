@@ -1,11 +1,13 @@
 ﻿using InventoryManagementPro.Data;
 using InventoryManagementPro.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace InventoryManagementPro.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class OrdersController : Controller
     {
         private readonly AppDbContext _db;

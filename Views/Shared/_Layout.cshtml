@@ -19,53 +19,91 @@
                 <div class="brand-icon"><i class="bi bi-box-seam"></i></div>
                 <div class="brand-text">Inventory Management System</div>
             </div>
-            <nav class="menu">
-                <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
-                   asp-controller="Dashboard" asp-action="Index">
-                    <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
-                </a>
-                <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")"
-                   asp-controller="Products" asp-action="Index">
-                    <i class="bi bi-box"></i><span>Products</span>
-                </a>
-                <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Sales" ? "active" : "")"
-                   asp-controller="Sales" asp-action="Index">
-                    <i class="bi bi-graph-up-arrow"></i><span>Sales</span>
-                </a>
-                <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Orders" ? "active" : "")"
-                   asp-controller="Orders" asp-action="Index">
-                    <i class="bi bi-receipt"></i><span>Orders</span>
-                </a>
-                <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Suppliers" ? "active" : "")"
-                   asp-controller="Suppliers" asp-action="Index">
-                    <i class="bi bi-truck"></i><span>Suppliers</span>
-                </a>
-                <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")"
-                   asp-controller="Reports" asp-action="Index">
-                    <i class="bi bi-file-earmark-bar-graph"></i><span>Reports</span>
-                </a>
-            </nav>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <nav class="menu">
+                    <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                       asp-controller="Dashboard" asp-action="Index">
+                        <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
+                    </a>
+
+                    <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")"
+                       asp-controller="Products" asp-action="Index">
+                        <i class="bi bi-box"></i><span>Products</span>
+                    </a>
+
+                    <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Sales" ? "active" : "")"
+                       asp-controller="Sales" asp-action="Index">
+                        <i class="bi bi-graph-up-arrow"></i><span>Sales</span>
+                    </a>
+
+                    <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Orders" ? "active" : "")"
+                       asp-controller="Orders" asp-action="Index">
+                        <i class="bi bi-receipt"></i><span>Orders</span>
+                    </a>
+
+                    <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Suppliers" ? "active" : "")"
+                       asp-controller="Suppliers" asp-action="Index">
+                        <i class="bi bi-truck"></i><span>Suppliers</span>
+                    </a>
+
+                    <a class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")"
+                       asp-controller="Reports" asp-action="Index">
+                        <i class="bi bi-file-earmark-bar-graph"></i><span>Reports</span>
+                    </a>
+                </nav>
+            }
+
             <div class="sidebar-bottom">
-                <a class="menu-item logout" href="#">
-                    <i class="bi bi-power"></i><span>Logout</span>
-                </a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="margin:0;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="menu-item logout"
+                                style="background:none;border:none;width:100%;text-align:left;cursor:pointer;">
+                            <i class="bi bi-power"></i><span>Logout</span>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a class="menu-item logout" asp-controller="Account" asp-action="Login">
+                        <i class="bi bi-box-arrow-in-right"></i><span>Login</span>
+                    </a>
+                }
             </div>
         </aside>
+
         <main class="main">
             <header class="topbar">
                 <div class="topbar-left">
-                    <button class="icon-btn" type="button" title="Menu"><i class="bi bi-list"></i></button>
-                  
+                    <button class="icon-btn" type="button" title="Menu">
+                        <i class="bi bi-list"></i>
+                    </button>
                 </div>
+
                 <div class="topbar-right">
-                    <button class="icon-btn" type="button" title="Notifications"><i class="bi bi-bell"></i></button>
-                    <div class="user">
-                        <div class="avatar"></div>
-                        <div class="user-text">
-                            <div class="user-title">Welcome, Maya</div>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <button class="icon-btn" type="button" title="Notifications">
+                            <i class="bi bi-bell"></i>
+                        </button>
+
+                        <div class="user">
+                            <div class="avatar"></div>
+                            <div class="user-text">
+                                <div class="user-title">Welcome, @User.Identity!.Name</div>
+                            </div>
+                            <i class="bi bi-chevron-down"></i>
                         </div>
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
+                    }
+                    else
+                    {
+                        <a class="btn-primary-dark" asp-controller="Account" asp-action="Login" style="text-decoration:none;">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    }
                 </div>
             </header>
 

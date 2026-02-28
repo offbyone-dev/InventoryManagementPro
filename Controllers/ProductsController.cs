@@ -1,10 +1,12 @@
 ﻿using InventoryManagementPro.Data;
 using InventoryManagementPro.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementPro.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class ProductsController : Controller
     {
         private readonly AppDbContext _db;
@@ -52,12 +54,10 @@ namespace InventoryManagementPro.Controllers
                 .OrderBy(s => s.Name)
                 .ToListAsync();
 
-            if (!ModelState.IsValid)
-            {
-                return View(input);
-            }
+            if (!ModelState.IsValid) return View(input);
 
             input.CreatedAtUtc = DateTime.UtcNow;
+            input.ReorderLevel = 5;
 
             _db.Products.Add(input);
             await _db.SaveChangesAsync();
@@ -98,7 +98,6 @@ namespace InventoryManagementPro.Controllers
             product.Category = input.Category;
             product.Price = input.Price;
             product.Stock = input.Stock;
-            product.ReorderLevel = input.ReorderLevel;
             product.IsActive = input.IsActive;
             product.SupplierId = input.SupplierId;
 
@@ -114,6 +113,18 @@ namespace InventoryManagementPro.Controllers
         {
             var product = await _db.Products.FindAsync(id);
             if (product == null) return NotFound();
+
+            var usedInOrders = await _db.OrderItems
+                .AnyAsync(x => x.ProductId == id);
+
+            if (usedInOrders)
+            {
+                product.IsActive = false; 
+                await _db.SaveChangesAsync();
+
+                TempData["Success"] = "Product used in orders. It was deactivated instead of deleted.";
+                return RedirectToAction(nameof(Index));
+            }
 
             _db.Products.Remove(product);
             await _db.SaveChangesAsync();

@@ -1112,3 +1112,72 @@ input[type="number"]::-webkit-outer-spin-button {
 .item-row input[type="number"] {
     max-width: 140px;
 }
+.auth-wrap {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.auth-card {
+    width: min(420px, 92vw);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.auth-field {
+    margin-bottom: 14px;
+}
+
+.auth-label {
+    display: block;
+    margin-bottom: 8px;
+    opacity: .8;
+    font-size: 13px;
+}
+
+.auth-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+
+    .auth-input i {
+        opacity: .7;
+    }
+
+    .auth-input input {
+        width: 100%;
+        background: transparent;
+        border: 0;
+        outline: 0;
+        color: rgba(233,238,246,.92);
+        font-size: 14px;
+    }
+
+.auth-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0 16px;
+    gap: 10px;
+}
+
+.auth-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    opacity: .85;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+}

@@ -2,6 +2,7 @@
 using InventoryManagementPro.Data;
 using InventoryManagementPro.Models;
 using InventoryManagementPro.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
@@ -9,6 +10,7 @@ using QuestPDF.Infrastructure;
 
 namespace InventoryManagementPro.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ReportsController : Controller
     {
         private readonly AppDbContext _db;
@@ -123,7 +125,7 @@ namespace InventoryManagementPro.Controllers
                 (bytes, contentType, fileName) = BuildPdf(type, range, revenue, orders, productsAdded);
             if (string.Equals(submitAction, "export", StringComparison.OrdinalIgnoreCase))
                 return File(bytes, contentType, fileName);
-       
+
             var existing = await _db.ReportRecords
                 .OrderByDescending(r => r.CreatedUtc)
                 .FirstOrDefaultAsync(r =>
@@ -225,7 +227,7 @@ namespace InventoryManagementPro.Controllers
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
-            var localNow = DateTime.Now; 
+            var localNow = DateTime.Now;
 
             var doc = Document.Create(container =>
             {

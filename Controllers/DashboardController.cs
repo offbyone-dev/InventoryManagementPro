@@ -3,9 +3,11 @@ using InventoryManagementPro.Models;
 using InventoryManagementPro.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryManagementPro.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class DashboardController : Controller
     {
         private readonly AppDbContext _db;

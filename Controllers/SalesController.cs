@@ -1,11 +1,13 @@
-﻿using System.Text;
-using InventoryManagementPro.Data;
+﻿using InventoryManagementPro.Data;
 using InventoryManagementPro.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace InventoryManagementPro.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class SalesController : Controller
     {
         private readonly AppDbContext _db;

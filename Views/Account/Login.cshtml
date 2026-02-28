@@ -1,0 +1,106 @@
+﻿@model InventoryManagementPro.Models.ViewModels.LoginVM
+@{
+    ViewData["Title"] = "Login";
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
+    var devDefaultEmail = env.Equals("Development", StringComparison.OrdinalIgnoreCase)
+        ? "admin@ims.com"
+        : "";
+}
+
+<div class="auth-wrap">
+    <div class="auth-card panel">
+        <div class="panel-h">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span class="kpi-icon-lg" style="width:42px;height:42px;border-radius:12px;display:grid;place-items:center;">
+                    <i class="bi bi-shield-lock"></i>
+                </span>
+                <div>
+                    <div style="font-weight:800;font-size:18px;">Log in</div>
+                    <div style="opacity:.7;font-size:13px;">Sign in to continue</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-b">
+            <form asp-action="Login" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom:10px;"></div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Email</label>
+                    <div class="auth-input">
+                        <i class="bi bi-envelope"></i>
+                        <input asp-for="Email"
+                               placeholder="username@ims.com"
+                               autocomplete="username"
+                               inputmode="email" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Password</label>
+                    <div class="auth-input" style="gap:10px;">
+                        <i class="bi bi-key"></i>
+
+                        <input asp-for="Password"
+                               id="passwordInput"
+                               type="password"
+                               placeholder="••••••••"
+                               autocomplete="current-password" />
+
+                        <button type="button"
+                                class="icon-btn"
+                                id="togglePassword"
+                                title="Show/Hide password"
+                                style="width:38px;height:38px;border-radius:10px;">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="auth-row">
+                    <label class="auth-check">
+                        <input asp-for="RememberMe" />
+                        <span>Remember me</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary-dark auth-btn">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
+                </button>
+                @if (env.Equals("Development", StringComparison.OrdinalIgnoreCase))
+                {
+                    <div style="margin-top:10px; opacity:.65; font-size:12px;">
+                  
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const input = document.getElementById('passwordInput');
+            const btn = document.getElementById('togglePassword');
+            if (!input || !btn) return;
+
+            btn.addEventListener('click', function () {
+                const isHidden = input.type === 'password';
+                input.type = isHidden ? 'text' : 'password';
+
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('bi-eye', !isHidden);
+                    icon.classList.toggle('bi-eye-slash', isHidden);
+                }
+            });
+        })();
+    </script>
+}
