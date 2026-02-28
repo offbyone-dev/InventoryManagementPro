@@ -1,0 +1,25 @@
+﻿@model InventoryManagementPro.Models.ReportRecord
+@{
+    ViewData["Title"] = "Report Details";
+}
+
+<div class="page-header">
+    <h2 class="page-title">Report Details</h2>
+    <div class="page-subtitle">@Model.Title</div>
+</div>
+
+<div class="panel">
+    <div class="panel-b">
+        <p><b>ID:</b> #R-@Model.Id</p>
+        <p><b>Type:</b> @Model.Type</p>
+        <p><b>Format:</b> @Model.Format</p>
+        <p><b>Status:</b> @Model.Status</p>
+        <p><b>Range:</b> @Model.RangeDays days</p>
+        <p><b>Created:</b> @Model.CreatedUtc.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")</p>
+
+        <a class="btn-primary-dark" asp-action="Download" asp-route-id="@Model.Id">
+            <i class="bi bi-download"></i> Download
+        </a>
+        <a class="btn-ghost" asp-action="Index">Back</a>
+    </div>
+</div>

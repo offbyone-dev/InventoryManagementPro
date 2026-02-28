@@ -1,4 +1,7 @@
-﻿@{
+﻿@model InventoryManagementPro.Models.ViewModels.ReportsVM
+@using System.Text.Json
+
+@{
     ViewData["Title"] = "Reports";
 }
 
@@ -13,8 +16,8 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-cash-stack"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">$18,920</div>
-                    <div class="kpi-sub">Revenue (30 days)</div>
+                    <div class="kpi-value">$@Model.RevenueLastXDays</div>
+                    <div class="kpi-sub">Revenue (@Model.RangeDays days)</div>
                 </div>
             </div>
         </div>
@@ -25,8 +28,8 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-bag-check"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">86</div>
-                    <div class="kpi-sub">Orders (30 days)</div>
+                    <div class="kpi-value">@Model.OrdersLastXDays</div>
+                    <div class="kpi-sub">Orders (@Model.RangeDays days)</div>
                 </div>
             </div>
         </div>
@@ -37,7 +40,7 @@
             <div class="kpi-left">
                 <div class="kpi-icon-lg"><i class="bi bi-box-seam"></i></div>
                 <div class="kpi-text">
-                    <div class="kpi-value">42</div>
+                    <div class="kpi-value">@Model.ProductsAddedLastXDays</div>
                     <div class="kpi-sub">Products Added</div>
                 </div>
             </div>
@@ -49,43 +52,51 @@
     <div class="panel-h">
         <div>Report Filters</div>
         <div class="panel-right">
-            <button class="btn-ghost"><i class="bi bi-download"></i> Export</button>
+            <button form="reportForm" name="submitAction" value="export" class="btn-ghost" type="submit">
+                <i class="bi bi-download"></i> Export
+            </button>
         </div>
     </div>
 
     <div class="panel-b">
-        <div class="report-filters">
-            <div class="filter-item">
-                <label>Date Range</label>
-                <select>
-                    <option>Last 7 days</option>
-                    <option selected>Last 30 days</option>
-                    <option>Last 90 days</option>
-                    <option>This Year</option>
-                </select>
-            </div>
+        <form id="reportForm" asp-action="Generate" method="post">
+            @Html.AntiForgeryToken()
 
-            <div class="filter-item">
-                <label>Report Type</label>
-                <select>
-                    <option selected>Sales Report</option>
-                    <option>Inventory Report</option>
-                    <option>Low Stock Report</option>
-                </select>
-            </div>
+            <div class="report-filters">
+                <div class="filter-item">
+                    <label>Date Range</label>
+                    <select name="range">
+                        <option value="7" selected="@(Model.RangeDays == 7)">Last 7 days</option>
+                        <option value="30" selected="@(Model.RangeDays == 30)">Last 30 days</option>
+                        <option value="90" selected="@(Model.RangeDays == 90)">Last 90 days</option>
+                        <option value="365" selected="@(Model.RangeDays == 365)">This Year</option>
+                    </select>
+                </div>
 
-            <div class="filter-item">
-                <label>Format</label>
-                <select>
-                    <option selected>PDF</option>
-                    <option>Excel</option>
-                </select>
-            </div>
+                <div class="filter-item">
+                    <label>Report Type</label>
+                    <select name="type">
+                        <option value="Sales" selected="@(Model.ReportType == "Sales")">Sales Report</option>
+                        <option value="Inventory" selected="@(Model.ReportType == "Inventory")">Inventory Report</option>
+                        <option value="LowStock" selected="@(Model.ReportType == "LowStock")">Low Stock Report</option>
+                    </select>
+                </div>
 
-            <div class="filter-item filter-btn">
-                <button class="btn-primary-dark"><i class="bi bi-play-fill"></i> Generate</button>
+                <div class="filter-item">
+                    <label>Format</label>
+                    <select name="format">
+                        <option value="PDF" selected="@(Model.Format == "PDF")">PDF</option>
+                        <option value="Excel" selected="@(Model.Format == "Excel")">Excel</option>
+                    </select>
+                </div>
+
+                <div class="filter-item filter-btn">
+                    <button name="submitAction" value="generate" class="btn-primary-dark" type="submit">
+                        <i class="bi bi-play-fill"></i> Generate
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -108,11 +119,18 @@
         <div class="table-title">Generated Report (Preview)</div>
 
         <div class="table-tools">
-            <div class="tool-search">
+            <form method="get" asp-action="Index" class="tool-search">
+                <input type="hidden" name="range" value="@Model.RangeDays" />
+                <input type="hidden" name="type" value="@Model.ReportType" />
+                <input type="hidden" name="format" value="@Model.Format" />
+
                 <i class="bi bi-search"></i>
-                <input placeholder="Search..." />
-            </div>
-            <button class="btn-ghost">Print <i class="bi bi-printer"></i></button>
+                <input name="q" value="@Model.Q" placeholder="Search..." />
+            </form>
+
+            <button class="btn-ghost" type="button" onclick="window.print()">
+                Print <i class="bi bi-printer"></i>
+            </button>
         </div>
     </div>
 
@@ -128,56 +146,70 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>#R-9001</td>
-                <td>Sales Summary (30 days)</td>
-                <td>22 Feb 2026</td>
-                <td>Sales</td>
-                <td><span class="badge in">Ready</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
-                    <button class="btn-action del"><i class="bi bi-download"></i> Download</button>
-                </td>
-            </tr>
-            <tr>
-                <td>#R-9002</td>
-                <td>Inventory Snapshot</td>
-                <td>21 Feb 2026</td>
-                <td>Inventory</td>
-                <td><span class="badge low">Draft</span></td>
-                <td class="actions-wide">
-                    <button class="btn-action edit"><i class="bi bi-eye"></i> View</button>
-                    <button class="btn-action del"><i class="bi bi-download"></i> Download</button>
-                </td>
-            </tr>
+            @if (Model.RecentReports != null && Model.RecentReports.Any())
+            {
+                foreach (var r in Model.RecentReports)
+                {
+                    <tr>
+                        <td>#R-@r.Id</td>
+                        <td>@r.Title</td>
+                        <td>@r.CreatedUtc.ToLocalTime().ToString("dd MMM yyyy hh:mm tt")</td>
+                        <td>@r.Type</td>
+                        <td>
+                            <span class="badge @(r.Status == "Ready" ? "in" : "low")">@r.Status</span>
+                        </td>
+                        <td class="actions-wide">
+                            <a class="btn-action edit" asp-action="Details" asp-route-id="@r.Id">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                            <a class="btn-action del" asp-action="Download" asp-route-id="@r.Id">
+                                <i class="bi bi-download"></i> Download
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" style="text-align:center; opacity:.7;">No reports found</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
+
+<script>
+    const reportLabels = @Html.Raw(JsonSerializer.Serialize(Model.Labels));
+    const reportData = @Html.Raw(JsonSerializer.Serialize(Model.RevenueData));
+</script>
+
 @section Scripts {
     <script>
         Chart.defaults.color = 'rgba(233,238,246,.70)';
         Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
+
         const ctx = document.getElementById('reportChart');
         new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-            datasets: [{
-              label: 'Revenue',
-              data: [1200,1900,3000,2500,3200,4000],
-              borderWidth: 0,
-              backgroundColor: 'rgba(96,165,250,.35)'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } },
-              y: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } }
+            type: 'bar',
+            data: {
+                labels: reportLabels,
+                datasets: [{
+                    label: 'Revenue',
+                    data: reportData,
+                    borderWidth: 0,
+                    backgroundColor: 'rgba(96,165,250,.35)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } },
+                    y: { ticks: { color: 'rgba(233,238,246,.45)' }, grid: { color: 'rgba(255,255,255,.05)' } }
+                }
             }
-          }
         });
     </script>
 }
