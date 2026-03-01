@@ -134,6 +134,7 @@ InventoryManagementPro/
 ---
 ## 💻 How to Run Locally
 Follow the steps below to run this project on your local machine.
+---
 1️⃣ Clone the Repository
 ```
 git clone https://github.com/offbyone-dev/InventoryManagementPro.git
