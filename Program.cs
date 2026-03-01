@@ -21,15 +21,17 @@ builder.Services
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.AccessDeniedPath = "/Home/AccessDenied"; 
 });
 
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
 await IdentitySeeder.SeedAsync(app.Services);
 
 if (!app.Environment.IsDevelopment())
@@ -40,6 +42,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseStatusCodePagesWithReExecute("/Home/Error");
 
 app.UseRouting();
 

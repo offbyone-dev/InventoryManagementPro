@@ -2,9 +2,6 @@
 @{
     ViewData["Title"] = "Login";
     var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
-    var devDefaultEmail = env.Equals("Development", StringComparison.OrdinalIgnoreCase)
-        ? "admin@ims.com"
-        : "";
 }
 
 <div class="auth-wrap">
@@ -27,19 +24,17 @@
                 <input type="hidden" asp-for="ReturnUrl" />
 
                 <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom:10px;"></div>
-
                 <div class="auth-field">
                     <label class="auth-label">Email</label>
                     <div class="auth-input">
                         <i class="bi bi-envelope"></i>
                         <input asp-for="Email"
-                               placeholder="username@ims.com"
+                               placeholder="Enter your email"
                                autocomplete="username"
                                inputmode="email" />
                     </div>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-
                 <div class="auth-field">
                     <label class="auth-label">Password</label>
                     <div class="auth-input" style="gap:10px;">
@@ -68,16 +63,23 @@
                         <span>Remember me</span>
                     </label>
                 </div>
-
                 <button type="submit" class="btn-primary-dark auth-btn">
                     <i class="bi bi-box-arrow-in-right"></i> Login
                 </button>
                 @if (env.Equals("Development", StringComparison.OrdinalIgnoreCase))
                 {
-                    <div style="margin-top:10px; opacity:.65; font-size:12px;">
-                  
+                    <div style="margin-top:14px;
+                                    padding:12px;
+                                    border-radius:12px;
+                                    background:rgba(96,165,250,.08);
+                                    font-size:12px;
+                                    line-height:1.6;">
+                        <b style="opacity:.8;">Demo Credentials</b><br />
+                        Email: <code>admin@ims.com</code><br />
+                        Password: <code>Admin123!</code>
                     </div>
                 }
+
             </form>
         </div>
     </div>
