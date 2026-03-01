@@ -197,7 +197,7 @@ Seeder enabled for demo accounts.
 ![Products](./screenshots/products.png)
 
 ---
-### 🚚 Suppliers Page
+### 🚚 Sales Page
 ![Sales](./screenshots/sales.png)
 
 ---
