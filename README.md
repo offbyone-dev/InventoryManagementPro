@@ -220,8 +220,13 @@ Seeder enabled for demo accounts.
 ## 🎥 Project Demo
 Watch Full Demo Video:
 👉 https://youtu.be/EuDRAowlD7A
+
 ---
+
 ## 🌐 Deployment
+
 The project is deployment-ready.
+
 Due to temporary hosting limitations, a public live demo is not currently available.
+
 Cloud deployment (Azure) will be added in a future update.
