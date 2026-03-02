@@ -143,7 +143,7 @@ git clone https://github.com/offbyone-dev/InventoryManagementPro.git
 ```
 cd InventoryManagementPro
 ```
-3️⃣ Configure Database Connection
+3️⃣ Configure Database Connection.
 Open the file:
 ```
 appsettings.json
@@ -155,7 +155,7 @@ Example:
   "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=InventoryManagementProDb;Trusted_Connection=True;TrustServerCertificate=True;"
 }
 ```
-4️⃣ Apply Database Migrations
+4️⃣ Apply Database Migrations.
 Make sure SQL Server is running, then execute:
 ```
 dotnet ef database update
