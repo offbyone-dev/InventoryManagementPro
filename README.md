@@ -17,7 +17,7 @@ InventoryManagementPro is a structured, production-ready inventory system design
 
 The system follows clean architecture principles:
 
-Controller → Service Layer → Data Layer 
+Controller → Data Layer 
 
 ---
 
