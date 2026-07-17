@@ -189,7 +189,7 @@ Seeder enabled for demo accounts.
 
 ---
 
-### 📊 Dashboard
+### Dashboard
 ![Dashboard](./screenshots/dashboard.png)
 
 ---
