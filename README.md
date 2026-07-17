@@ -1,10 +1,10 @@
-# 📦 InventoryManagementPro
+# 📦InventoryManagementPro
 
 A full-featured **Inventory Management System** built using **ASP.NET Core MVC (.NET 8)** and **Entity Framework Core**, featuring role-based authentication and a dynamic analytics dashboard.
 
 ---
 
-## 🚀 Project Overview
+## 🚀Project Overview
 
 InventoryManagementPro is a structured, production-ready inventory system designed to manage:
 
@@ -21,33 +21,33 @@ Controller → Data Layer
 
 ---
 
-## ✨ Features
+## ✨Features
 
-### 🔐 Authentication & Authorization
+### 🔐Authentication & Authorization
 - ASP.NET Core Identity
 - Role-based access control (Admin / Staff)
 - Secure login system
 - `[Authorize]` implementation
 - Seeder-based demo accounts
 
-### 📦 Product Management
+### 📦Product Management
 - Full CRUD operations
 - Category support
 - Reorder level tracking
 - Stock status logic (In Stock / Low Stock / Out of Stock)
 - Search & filtering support
 
-### 🚚 Supplier Management
+### 🚚Supplier Management
 - Supplier CRUD operations
 - Product ↔ Supplier relationship binding
 
-### 🧾 Orders System
+### 🧾Orders System
 - Create orders with multiple items
 - Automatic stock deduction
 - Order history tracking
 - Dynamic calculations
 
-### 📊 Dynamic Dashboard
+### 📊Dynamic Dashboard
 - Total Products
 - Total Orders
 - Low Stock Alerts
@@ -55,14 +55,14 @@ Controller → Data Layer
 - Chart.js integration
 - Optimized EF Core queries
 
-### 📄 Reports
+###  Reports
 - Sales report
 - Order details report
 - Filter & search support
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Backend:** ASP.NET Core MVC (.NET 8)  
 - **Database:** SQL Server  
@@ -74,7 +74,7 @@ Controller → Data Layer
 
 ---
 
-## 📂 Project Structure
+## 📂Project Structure
 
 ```
 InventoryManagementPro/
@@ -132,7 +132,7 @@ InventoryManagementPro/
 └── README.md
 ```
 ---
-## 💻 How to Run Locally
+## How to Run Locally
 Follow the steps below to run this project on your local machine.
 ---
 1️⃣ Clone the Repository
@@ -155,12 +155,12 @@ Example:
   "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=InventoryManagementProDb;Trusted_Connection=True;TrustServerCertificate=True;"
 }
 ```
-4️⃣ Apply Database Migrations.
+4️⃣Apply Database Migrations.
 Make sure SQL Server is running, then execute:
 ```
 dotnet ef database update
 ```
-5️⃣ Run the Application
+5️⃣Run the Application
 ```
 dotnet run
 ```
@@ -169,13 +169,13 @@ The application will start locally :
 https://localhost:7075
 ```
 ---
-## 🔑 Demo Credentials
+## Demo Credentials
 
-### 👑 Admin
+### Admin
 - Email: `admin@ims.com`
 - Password: `Admin123!`
 
-### 👩‍💼 Staff
+### Staff
 - Email: `staff@ims.com`
 - Password: `Staff123!`
 
@@ -184,7 +184,7 @@ Seeder enabled for demo accounts.
 ---
 ## 📷 Screenshots
 
-### 🔐 Login Page
+###  Login Page
 ![Login Page](./screenshots/login.png)
 
 ---
@@ -194,36 +194,36 @@ Seeder enabled for demo accounts.
 
 ---
 
-### 📦 Products Page
+### Products Page
 ![Products](./screenshots/products.png)
 
 ---
-### 🚚 Sales Page
+### Sales Page
 ![Sales](./screenshots/sales.png)
 
 ---
 
-### 🧾 Orders Page
+### Orders Page
 ![Orders](./screenshots/orders.png)
 
 ---
 
-### 🚚 Suppliers Page
+###  Suppliers Page
 ![Suppliers](./screenshots/suppliers.png)
 
 ---
 
-### 📄 Reports Page
+###  Reports Page
 ![Reports](./screenshots/reports.png)
 
 ---
-## 🎥 Project Demo
+## 🎥Project Demo
 Watch Full Demo Video:
 👉 https://youtu.be/EuDRAowlD7A
 
 ---
 
-## 🌐 Deployment
+## 🌐Deployment
 
 The project is deployment-ready.
 
