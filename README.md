@@ -4,7 +4,7 @@ A full-featured **Inventory Management System** built using **ASP.NET Core MVC (
 
 ---
 
-## 🚀Project Overview
+## Project Overview
 
 InventoryManagementPro is a structured, production-ready inventory system designed to manage:
 
@@ -21,33 +21,33 @@ Controller → Data Layer
 
 ---
 
-## ✨Features
+## Features
 
-### 🔐Authentication & Authorization
+### Authentication & Authorization
 - ASP.NET Core Identity
 - Role-based access control (Admin / Staff)
 - Secure login system
 - `[Authorize]` implementation
 - Seeder-based demo accounts
 
-### 📦Product Management
+### Product Management
 - Full CRUD operations
 - Category support
 - Reorder level tracking
 - Stock status logic (In Stock / Low Stock / Out of Stock)
 - Search & filtering support
 
-### 🚚Supplier Management
+### Supplier Management
 - Supplier CRUD operations
 - Product ↔ Supplier relationship binding
 
-### 🧾Orders System
+### Orders System
 - Create orders with multiple items
 - Automatic stock deduction
 - Order history tracking
 - Dynamic calculations
 
-### 📊Dynamic Dashboard
+### Dynamic Dashboard
 - Total Products
 - Total Orders
 - Low Stock Alerts
@@ -182,7 +182,7 @@ https://localhost:7075
 Seeder enabled for demo accounts.
 
 ---
-## 📷 Screenshots
+##  Screenshots
 
 ###  Login Page
 ![Login Page](./screenshots/login.png)
