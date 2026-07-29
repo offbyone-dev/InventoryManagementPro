@@ -8,6 +8,7 @@ A full-featured **Inventory Management System** built using **ASP.NET Core MVC (
 
 InventoryManagementPro is a structured, production-ready inventory system designed to manage:
 
+
 - Products  
 - Suppliers  
 - Orders  
@@ -22,6 +23,7 @@ Controller → Data Layer
 ---
 
 ## Features
+
 
 ### Authentication & Authorization
 - ASP.NET Core Identity
@@ -73,6 +75,7 @@ Controller → Data Layer
 - **Version Control:** Git & GitHub  
 
 ---
+
 
 ## 📂Project Structure
 
